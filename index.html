@@ -6,12 +6,48 @@
     <script>
       setTimeout(() => {
         const newWin = window.open('about:blank', '_blank');
-        const website = "https://resent4-0.vercel.app/";
-        const frame= ` 
-            <embed src="${website}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
-        `;
-        newWin.document.write(frame);
-        window.location.href='about:blank';
+
+        // Wait for the about:blank document to be ready
+        newWin.document.open();
+        newWin.document.write(`
+          <html>
+            <head>
+              <title>Initial Title</title>
+            </head>
+            <body>
+              <div>
+                <label for="changeUrl">Change URL in Iframe:</label>
+                <input type="text" id="changeUrl" placeholder="Enter new URL" /><br>
+
+                <label for="changeFavicon">Change Favicon URL:</label>
+                <input type="text" id="changeFavicon" placeholder="Enter favicon URL" /><br>
+
+                <label for="changeTitle">Change Title of Page:</label>
+                <input type="text" id="changeTitle" placeholder="Enter new title" /><br>
+              </div>
+              <embed src="https://resent4-0.vercel.app/" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
+            </body>
+          </html>
+        `);
+        newWin.document.close();
+
+        // Add functionality to change iframe URL
+        newWin.document.getElementById("changeUrl").addEventListener("input", (e) => {
+          newWin.document.querySelector("embed").src = e.target.value;
+        });
+
+        // Add functionality to change favicon
+        newWin.document.getElementById("changeFavicon").addEventListener("input", (e) => {
+          const favicon = newWin.document.createElement("link");
+          favicon.rel = "icon";
+          favicon.href = e.target.value;
+          newWin.document.head.appendChild(favicon);
+        });
+
+        // Add functionality to change title
+        newWin.document.getElementById("changeTitle").addEventListener("input", (e) => {
+          newWin.document.title = e.target.value;
+        });
       }, 0);
     </script>
   </head>
