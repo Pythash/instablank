@@ -6,79 +6,12 @@
     <script>
       setTimeout(() => {
         const newWin = window.open('about:blank', '_blank');
-        newWin.document.open();
-        newWin.document.write(`
-          <!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Dynamic Page</title>
-              <link id="favicon" rel="icon" type="image/png" href="">
-              <style>
-                body {
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: flex-end;
-                  align-items: center;
-                  height: 100vh;
-                  margin: 0;
-                }
-                .controls {
-                  display: flex;
-                  gap: 5px;
-                  position: absolute;
-                  bottom: 10px;
-                }
-                iframe {
-                  width: 80%;
-                  height: 60vh;
-                  margin-top: 10px;
-                  border: none;
-                }
-                .hide-button {
-                  position: absolute;
-                  bottom: 10px;
-                  right: 10px;
-                  padding: 2px 5px;
-                  font-size: 10px;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="controls" id="controls">
-                <input type="text" id="urlInput" placeholder="Enter URL">
-                <input type="text" id="titleInput" placeholder="Enter Page Title">
-                <input type="text" id="faviconInput" placeholder="Enter Favicon URL">
-              </div>
-              <button class="hide-button" onclick="hideControls()">X</button>
-              <iframe id="iframe" style="display: none;"></iframe>
-              <script>
-                document.getElementById('urlInput').addEventListener('keypress', function(event) {
-                  if (event.key === 'Enter') {
-                    const iframe = document.getElementById('iframe');
-                    iframe.src = this.value;
-                    iframe.style.display = 'block';
-                  }
-                });
-                document.getElementById('titleInput').addEventListener('keypress', function(event) {
-                  if (event.key === 'Enter') {
-                    document.title = this.value;
-                  }
-                });
-                document.getElementById('faviconInput').addEventListener('keypress', function(event) {
-                  if (event.key === 'Enter') {
-                    document.getElementById('favicon').href = this.value;
-                  }
-                });
-                function hideControls() {
-                  document.getElementById('controls').style.display = 'none';
-                }
-              <\/script>
-            </body>
-          </html>
-        `);
-        newWin.document.close();
+        const website = "https://resent4-0.vercel.app/";
+        const frame= """ 
+            <embed src="${website}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
+        """;
+        newWin.document.write(frame);
+        window.location.href='about:blank';
       }, 0);
     </script>
   </head>
