@@ -25,31 +25,60 @@
 
                 <label for="changeTitle">Change Title of Page:</label>
                 <input type="text" id="changeTitle" placeholder="Enter new title" /><br>
+
+                <!-- Submit Button to trigger changes manually -->
+                <button id="submitChanges">Submit Changes</button>
               </div>
               <!-- Full-screen iframe -->
-              <embed src="https://resent4-0.vercel.app/" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
+              <embed id="iframe" src="https://resent4-0.vercel.app/" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
             </body>
           </html>
         `);
         newWin.document.close();
 
-        // Add functionality to change iframe URL
+        // Add functionality to change iframe URL instantly
         newWin.document.getElementById("changeUrl").addEventListener("input", (e) => {
-          newWin.document.querySelector("embed").src = e.target.value;
+          newWin.document.getElementById("iframe").src = e.target.value;
         });
 
-        // Add functionality to change favicon
+        // Add functionality to change favicon instantly
         newWin.document.getElementById("changeFavicon").addEventListener("input", (e) => {
-          const favicon = newWin.document.createElement("link");
-          favicon.rel = "icon";
-          favicon.href = e.target.value;
-          newWin.document.head.appendChild(favicon);
+          const favicon = newWin.document.querySelector("link[rel='icon']");
+          if (!favicon) {
+            const newFavicon = newWin.document.createElement("link");
+            newFavicon.rel = "icon";
+            newWin.document.head.appendChild(newFavicon);
+          }
+          newWin.document.querySelector("link[rel='icon']").href = e.target.value;
         });
 
-        // Add functionality to change title
+        // Add functionality to change title instantly
         newWin.document.getElementById("changeTitle").addEventListener("input", (e) => {
           newWin.document.title = e.target.value;
         });
+
+        // Submit button functionality to manually trigger changes
+        newWin.document.getElementById("submitChanges").addEventListener("click", () => {
+          const url = newWin.document.getElementById("changeUrl").value;
+          const favicon = newWin.document.getElementById("changeFavicon").value;
+          const title = newWin.document.getElementById("changeTitle").value;
+
+          // Update iframe URL
+          if (url) newWin.document.getElementById("iframe").src = url;
+          // Update favicon
+          if (favicon) {
+            const faviconElem = newWin.document.querySelector("link[rel='icon']");
+            if (!faviconElem) {
+              const newFavicon = newWin.document.createElement("link");
+              newFavicon.rel = "icon";
+              newWin.document.head.appendChild(newFavicon);
+            }
+            newWin.document.querySelector("link[rel='icon']").href = favicon;
+          }
+          // Update title
+          if (title) newWin.document.title = title;
+        });
+
       }, 0);
     </script>
   </head>
